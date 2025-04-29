@@ -44,7 +44,11 @@ int main(void) {
   SetTargetFPS(60);
 
   while (!WindowShouldClose()) {
+    float dt = GetFrameTime();
     cubeScreenPos = GetWorldToScreen(cube.pos, camera);
+
+    cube.pos.y += 1 * dt; // Move the rocket up
+
     TrackCube(&camera, cubeScreenPos);
 
     BeginDrawing();
