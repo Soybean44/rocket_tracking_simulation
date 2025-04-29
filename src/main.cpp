@@ -19,8 +19,15 @@ public:
   }
 };
 
-void TrackCube(Camera *cam, Vector2 pos) {
-  // CameraPitch(&camera, 0.01, true, false, true); command to rotate camera
+void TrackCube(Camera *cam, Vector2 cubePos, Vector2 targetPos) {
+  Vector2 posError = {.x = cubePos.x - targetPos.x,
+                      .y = cubePos.y - targetPos.y};
+
+  // command to rotate camera verticaly
+  // CameraPitch(&camera, 0.01, true, false, true);
+
+  // command to rotate camera horizontaly
+  // CameraYaw(&camera, 0.01, true, false, true);
 }
 
 int main(void) {
@@ -49,7 +56,7 @@ int main(void) {
 
     cube.pos.y += 1 * dt; // Move the rocket up
 
-    TrackCube(&camera, cubeScreenPos);
+    TrackCube(&camera, cubeScreenPos, targetPos);
 
     BeginDrawing();
     ClearBackground(SKYBLUE);
