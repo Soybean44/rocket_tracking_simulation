@@ -52,7 +52,6 @@ void TrackCube(Camera *cam, Vector3 cubePos, Vector2 targetPos) {
       CameraYaw(cam, -step * DEG2RAD, false); // Move 1 step
       isNotCenter = true;
     }
-    std::cout << posError.y << "\n";
   } while (isNotCenter);
 }
 
