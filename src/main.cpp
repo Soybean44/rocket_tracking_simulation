@@ -98,10 +98,7 @@ int main(void) {
                         .y = cubeScreenPos.y - targetPos.y};
     const char *pos_str =
         TextFormat("Pos Error: (%f, %f)", posError.x, posError.y);
-    const char *cam_str =
-        TextFormat("Camera Position: (%f, %f, %f)", camera.position.x,
-                   camera.position.y, camera.position.z);
-    DrawText(cam_str, 10, 10, 24, BLACK);
+    DrawText(pos_str, 10, 10, 24, BLACK);
     EndDrawing();
   }
   CloseWindow();
