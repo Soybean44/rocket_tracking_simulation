@@ -1,7 +1,6 @@
 #include <cmath>
 #include <raylib.h>
 #include <rcamera.h>
-#include <sstream>
 
 class Cube {
 public:
@@ -19,15 +18,34 @@ public:
   }
 };
 
-void TrackCube(Camera *cam, Vector2 cubePos, Vector2 targetPos) {
-  Vector2 posError = {.x = cubePos.x - targetPos.x,
-                      .y = cubePos.y - targetPos.y};
+constexpr float delta = 1;
+constexpr float step = 0.1;
 
-  // command to rotate camera verticaly
-  // CameraPitch(&camera, 0.01, true, false, true);
+void TrackCube(Camera *cam, Vector3 cubePos, Vector2 targetPos) {
+  bool isNotCenter;
+  do {
+    isNotCenter = false;
+    Vector2 cubeScreenPos = GetWorldToScreen(cubePos, *cam);
+    Vector2 posError = {.x = cubeScreenPos.x - targetPos.x,
+                        .y = cubeScreenPos.y - targetPos.y};
 
-  // command to rotate camera horizontaly
-  // CameraYaw(&camera, 0.01, true, false, true);
+    if (posError.y < -delta) {
+      CameraPitch(cam, step * DEG2RAD, true, false, false); // Move 1 step
+      isNotCenter = true;
+    }
+    if (posError.y > delta) {
+      CameraPitch(cam, -step * DEG2RAD, true, false, false); // Move 1 step
+      isNotCenter = true;
+    }
+    if (posError.x < -delta) {
+      CameraYaw(cam, step * DEG2RAD, true); // Move 1 step
+      isNotCenter = true;
+    }
+    if (posError.x > delta) {
+      CameraYaw(cam, -step * DEG2RAD, true); // Move 1 step
+      isNotCenter = true;
+    }
+  } while (isNotCenter);
 }
 
 int main(void) {
@@ -44,19 +62,18 @@ int main(void) {
   camera.projection = CAMERA_PERSPECTIVE;
 
   Cube cube(Vector3{0, 1, 0}, Vector3{2, 2, 2}, RED, BLACK);
-
-  camera.target = cube.pos; // This is the ideal case
   Vector2 cubeScreenPos;
-
+  camera.target = cube.pos;
   SetTargetFPS(60);
 
   while (!WindowShouldClose()) {
     float dt = GetFrameTime();
     cubeScreenPos = GetWorldToScreen(cube.pos, camera);
 
-    cube.pos.y += 1 * dt; // Move the rocket up
+    cube.pos.y += 5 * dt;                    // Move the rocket up
+    cube.pos.x = 3 * (float)sin(cube.pos.y); // Move the rocket horizontally
 
-    TrackCube(&camera, cubeScreenPos, targetPos);
+    TrackCube(&camera, cube.pos, targetPos);
 
     BeginDrawing();
     ClearBackground(SKYBLUE);
@@ -69,7 +86,7 @@ int main(void) {
     Vector2 posError = {.x = cubeScreenPos.x - targetPos.x,
                         .y = cubeScreenPos.y - targetPos.y};
     const char *pos_str =
-        TextFormat("Pos Error: (%d, %d)", (int)posError.x, (int)posError.y);
+        TextFormat("Pos Error: (%f, %f)", posError.x, posError.y);
     DrawText(pos_str, 10, 10, 24, BLACK);
     EndDrawing();
   }
