@@ -1,7 +1,11 @@
-#include <track.h>
+#include "track.h"
 
 constexpr float delta = 1;
 constexpr float step = 0.01;
+
+// The PID loop for the cube tracking calculates posError which is e(t) as stated in
+// https://en.wikipedia.org/wiki/Proportional%E2%80%93integral%E2%80%93derivative_controller#Controller_theory
+// We can then set the gain parameters for each stage and hopefully get a working controller 
 
 void TrackCube(Camera *cam, Vector3 cubePos, Vector2 targetPos) {
   bool isNotCenter;
