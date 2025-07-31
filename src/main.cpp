@@ -40,7 +40,7 @@ int main(void) {
   Vector2 cubeScreenPos;
   // start by making the camera look at the rocket directly
   camera.target = cube.pos;
-  SetTargetFPS(60);
+  SetTargetFPS(15);
 
   State s = {0};
 

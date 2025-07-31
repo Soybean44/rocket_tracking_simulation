@@ -3,7 +3,7 @@
 
 constexpr float delta = 1;
 constexpr float step = 0.01;
-float Kp = 1e-1;
+float Kp = 5e-1;
 float Kd = 1e-1;
 float Ki = 1e-1;
 
