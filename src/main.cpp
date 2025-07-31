@@ -6,6 +6,22 @@
 #include <rcamera.h>
 #include "track.h"
 
+class Cube {
+public:
+  Vector3 pos;
+  Vector3 size;
+  Color color;
+  Color border_color;
+
+  Cube(Vector3 pos, Vector3 size, Color color, Color border_color)
+      : pos(pos), size(size), color(color), border_color(border_color) {}
+
+  void render() {
+    DrawCubeV(pos, size, color);
+    DrawCubeWiresV(pos, Vector3Add(size, Vector3{0.01, 0.01, 0.01}),
+                   border_color);
+  }
+};
 
 int main(void) {
   int screenWidth = 1000;
@@ -26,6 +42,8 @@ int main(void) {
   camera.target = cube.pos;
   SetTargetFPS(60);
 
+  State s = {0};
+
   float t = 0;
   while (!WindowShouldClose()) {
     float dt = GetFrameTime();
@@ -33,9 +51,9 @@ int main(void) {
 
     t += 5 * dt;
     cube.pos.y = t;                     // Move the rocket up
-    cube.pos.x = 9 * (float)sin(t / 2); // Move the rocket horizontally
+    // cube.pos.x = 9 * (float)sin(t / 2); // Move the rocket horizontally
 
-    TrackCube(&camera, cube.pos, targetPos);
+    TrackCube(&camera, cube.pos, targetPos, &s);
 
     BeginDrawing();
     ClearBackground(SKYBLUE);

@@ -10,7 +10,7 @@ run: $(TARGET)
 	./$(TARGET)
 
 $(TARGET): build/main.o build/track.o
-	g++ -o $@ $(LDFLAGS)  $?
+	g++ -o $@ $(LDFLAGS)  $^
 
 build/%.o : src/%.cpp | build/
 	g++ -o $@ $(CFLAGS) -c $^
