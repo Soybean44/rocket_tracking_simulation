@@ -40,7 +40,7 @@ int main(void) {
   Vector2 cubeScreenPos;
   // start by making the camera look at the rocket directly
   camera.target = cube.pos;
-  SetTargetFPS(15);
+  SetTargetFPS(60);
 
   State s = {0};
 
@@ -51,7 +51,7 @@ int main(void) {
 
     t += 5 * dt;
     cube.pos.y = t;                     // Move the rocket up
-    // cube.pos.x = 9 * (float)sin(t / 2); // Move the rocket horizontally
+    cube.pos.x = 3 * (float)sin(t / 2); // Move the rocket horizontally
 
     TrackCube(&camera, cube.pos, targetPos, &s);
 
